@@ -1,8 +1,8 @@
 package device_query
 
-// #cgo CFLAGS: -I./device_query
-// #cgo LDFLAGS: -L./device_query -ldeviceq
-// #cgo LDFLAGS: -L./device_query -lcndev
+// #cgo CFLAGS: -I${SRCDIR}/device_query
+// #cgo LDFLAGS: -L${SRCDIR}/device_query -ldeviceq
+// #cgo LDFLAGS: -L${SRCDIR}/device_query -lcndev
 // #include "device_query.h"
 // #include "cndev.h"
 import "C"
