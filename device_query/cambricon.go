@@ -1,13 +1,14 @@
 package device_query
 
-// #cgo CFLAGS: -I${SRCDIR}/device_query
-// #cgo LDFLAGS: -L${SRCDIR}/device_query -ldeviceq
-// #cgo LDFLAGS: -L${SRCDIR}/device_query -lcndev
+// #cgo CFLAGS: -I$./device_query
+// #cgo LDFLAGS: -L${SRCDIR} -ldeviceq
+// #cgo LDFLAGS: -L${SRCDIR} -lcndev
 // #include "device_query.h"
 // #include "cndev.h"
 import "C"
 import "fmt"
 
+// ${SRCDIR}指得是当前文件即cgo文件的目录，不是main.go的目录
 func main() {
     count := C.getCardCount()
     fmt.Printf("%d\n", count)
@@ -20,7 +21,7 @@ func main() {
 
     coreUtilInfo := C.getCoreUtilInfo(0,0)
     fmt.Printf("Util CORE%d:%d%%\n",0, coreUtilInfo)
-    
+
     unuseCoreCount := getUnuseCoreCount(0)
     fmt.Printf("unuse core count is %d \n", unuseCoreCount)
 }
