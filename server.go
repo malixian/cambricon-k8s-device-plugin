@@ -15,7 +15,6 @@ package main
 	"google.golang.org/grpc"
 	pluginapi "k8s.io/kubernetes/pkg/kubelet/apis/deviceplugin/v1beta1"
 	 "strconv"
-	 "github.com/sylabs/scs-library-client/client"
  )
 
 const (
