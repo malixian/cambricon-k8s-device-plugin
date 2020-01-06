@@ -26,6 +26,7 @@ const (
 )
 var cardNames = [...]string {"/dev/cambricon_c10Dev0", "/dev/cambricon_c10Dev1", "/dev/cambricon_c10Dev2", "/dev/cambricon_c10Dev3"}
 
+
 // CambriconDevicePlugin implements the Kubernetes device plugin API
 type CambriconDevicePlugin struct {
 	devs   []*pluginapi.Device
@@ -155,8 +156,10 @@ func (m *CambriconDevicePlugin) unhealthy(dev *pluginapi.Device) {
 // Allocate which return list of devices.
 func (m *CambriconDevicePlugin) Allocate(ctx context.Context, reqs *pluginapi.AllocateRequest) (*pluginapi.AllocateResponse, error) {
 	devs := m.devs
-	hostPath := "/dev/cambricon_c10Dev0"
-	containerPath := "/dev/cambricon_c10Dev0"
+	//hostPath := "/dev/cambricon_c10Dev0"
+	//containerPath := "/dev/cambricon_c10Dev0"
+	hostPath := GetMaxUtilCard()
+	containerPath := hostPath
 	responses := pluginapi.AllocateResponse{}
 	devices := make([]*pluginapi.DeviceSpec, 0)
 	for _, req := range reqs.ContainerRequests {

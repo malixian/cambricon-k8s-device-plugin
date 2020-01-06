@@ -9,6 +9,7 @@ import (
 	cndev "cambricon-k8s-device-plugin/device_query"
 	pluginapi "k8s.io/kubernetes/pkg/kubelet/apis/deviceplugin/v1beta1"
 	"strconv"
+	"fmt"
 )
 
 const (
@@ -98,6 +99,24 @@ func getDevices() ([]*pluginapi.Device) {
 	}
 	return devs
 
+}
+
+func GetMaxUtilCard() string {
+	cardCount := cndev.GetCardCount()
+	maxUtil := 0
+	useCardName := ""
+	for i:=0; i<cardCount; i++ {
+		tmpUtil := cndev.GetDeviceUtil(i)
+		if maxUtil < tmpUtil {
+			maxUtil = tmpUtil
+			useCardName = setCardName(i)
+		}
+	}
+	return useCardName
+}
+
+func setCardName(cardIndex int) string {
+	return fmt.Sprintf("/dev/cambricon_c10Dev%d", cardIndex)
 }
 
 func deviceExists(devs []*pluginapi.Device, id string) bool {
