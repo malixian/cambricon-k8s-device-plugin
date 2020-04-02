@@ -10,7 +10,6 @@ import (
 	pluginapi "k8s.io/kubernetes/pkg/kubelet/apis/deviceplugin/v1beta1"
 	"strconv"
 	"fmt"
-	rand2 "math/rand"
 	"math"
 )
 
