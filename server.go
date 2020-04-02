@@ -158,6 +158,7 @@ func (m *CambriconDevicePlugin) Allocate(ctx context.Context, reqs *pluginapi.Al
 	devs := m.devs
 	//hostPath := "/dev/cambricon_c10Dev0"
 	//containerPath := "/dev/cambricon_c10Dev0"
+
 	hostPath := GetMaxUtilCard()
 	containerPath := hostPath
 	responses := pluginapi.AllocateResponse{}

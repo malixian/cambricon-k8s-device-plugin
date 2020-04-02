@@ -10,6 +10,8 @@ import (
 	pluginapi "k8s.io/kubernetes/pkg/kubelet/apis/deviceplugin/v1beta1"
 	"strconv"
 	"fmt"
+	rand2 "math/rand"
+	"math"
 )
 
 const (
@@ -87,7 +89,10 @@ func getDevices() ([]*pluginapi.Device) {
 	log.Printf("cambricon card count is %d", cardCount)
 	var devs []*pluginapi.Device
 	for i := 0; i < cardCount; i++ {
-		unuseCore := cndev.GetUnuseCoreCount(i)
+		// GetUnuseCoreCount method is too slow
+		//unuseCore := cndev.GetUnuseCoreCount(i)
+		deviceUtil := cndev.GetDeviceUtil(i)
+		unuseCore := int(math.Floor((1 - float64(deviceUtil)*1.0/100) * 32))
 		log.Printf("card NO%d has unuse core is %d", i, unuseCore)
 		for j := 0; j < unuseCore; j++ {
 			id := setDeviceID(i, j)
@@ -103,10 +108,14 @@ func getDevices() ([]*pluginapi.Device) {
 
 func GetMaxUtilCard() string {
 	cardCount := cndev.GetCardCount()
-	maxUtil := 0
+	maxUtil := -1
 	useCardName := ""
 	for i:=0; i<cardCount; i++ {
 		tmpUtil := cndev.GetDeviceUtil(i)
+		// 可能与yaml算mp、dp的设备不统一
+		if tmpUtil >= 90 {
+			continue
+		}
 		if maxUtil < tmpUtil {
 			maxUtil = tmpUtil
 			useCardName = setCardName(i)
